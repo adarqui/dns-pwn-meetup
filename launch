@@ -1,0 +1,15 @@
+#!/bin/bash
+
+if [ $# -lt 1 ] ; then
+	echo "usage: ./launch <ip>"
+	exit 1
+fi
+
+int() {
+	pkill -9 -f own.js
+	exit $?
+}
+
+npm install native-dns
+trap int SIGINT
+while true; do sleep 1 && node own.js $1 2>&1 >> log.out; done
